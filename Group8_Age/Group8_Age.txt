@@ -28,16 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
                 int Numage = Integer.parseInt(Page.getText().toString());
                 String Pname1 = Pname.getText().toString();
+                String Lname1 = Lname.getText().toString();
 
                 String user = Page.getText().toString().trim();
                 int yr = Calendar.getInstance().get(Calendar.YEAR);
                 int myage = yr -Integer.parseInt(user);
 
                 if (myage < 18){
-                    textView1.setText(Pname1 +" "+ Lname+""+ myage + " Cant vote");
+                    textView1.setText(Pname1 +" "+ Lname1+""+ myage + " Cant vote");
 
                 }else {
-                    textView1.setText(Pname1 +" "+ Lname+""+ myage + " Can vote");
+                    textView1.setText(Pname1 +" "+ Lname1+""+ myage + " Can vote");
                 }
             }
         });
