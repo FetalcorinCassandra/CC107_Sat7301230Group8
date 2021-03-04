@@ -1,0 +1,141 @@
+package com.example.mysqlliteproj;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    EditText Name , Course, ids;
+
+    Button add , update, delete, view;
+    myDbAdapter DB;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        Name = findViewById(R.id.name);
+        Course = findViewById(R.id.course);
+        ids = findViewById(R.id.ids);
+        add = findViewById(R.id.add2);
+        update = findViewById(R.id.update);
+        view = findViewById(R.id.view);
+        delete = findViewById(R.id.delete);
+        DB =new myDbAdapter (this);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                add();
+            }
+        });
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewdata();
+            }
+        });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                update();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete();
+            }
+        });
+
+    }
+
+
+
+    public void add(){
+
+        String name = Name.getText().toString();
+        String course = Course.getText().toString();
+        String Stud = ids.getText().toString();
+
+        if (Stud.isEmpty() || name.isEmpty() || course.isEmpty()){
+            message.message(getApplicationContext(),"Enter Name and Course");
+        }else{
+
+            long id=DB.insertData(Stud,name,course);
+            if(id < 0){
+                message.message(getApplicationContext(),"Add Student unsuccessful!");
+                Name.setText("");
+                Course.setText("");
+                ids.setText("");
+
+            }
+            else{
+                message.message(getApplicationContext(),"Add Student successful!");
+                Name.setText("");
+                Course.setText("");
+                ids.setText("");
+            }
+
+        }
+
+    }
+
+    public void viewdata()
+    {
+        String data = DB.getData();
+        message.message(this,data);
+    }
+
+
+    public void update(){
+        String name = Name.getText().toString();
+        String course = Course.getText().toString();
+        String Stud = ids.getText().toString();
+
+        if (Stud.isEmpty() || name.isEmpty() || course.isEmpty()){
+            message.message(getApplicationContext(),"Enter Name and Course");
+        }else{
+
+            long id=DB.updateName(Stud,name,course);
+            if(id < 0){
+                message.message(getApplicationContext(),"Edit Student unsuccessful!");
+                Name.setText("");
+                Course.setText("");
+                ids.setText("");
+            }
+            else{
+                message.message(getApplicationContext(),"Edit Student successful!");
+                Name.setText("");
+                Course.setText("");
+                ids.setText("");
+            }
+
+        }
+    }
+public void delete() {
+    String Stud = ids.getText().toString();
+    if (Stud.isEmpty()) {
+        message.message(getApplicationContext(), "Enter Student ID to delete");
+    } else {
+
+        long id = DB.delete(Stud);
+        if (id < 0) {
+            message.message(getApplicationContext(), "Delete Student unsuccessful!");
+            Name.setText("");
+            Course.setText("");
+            ids.setText("");
+        } else {
+            message.message(getApplicationContext(), "Delete Student successful!");
+            Name.setText("");
+            Course.setText("");
+            ids.setText("");
+        }
+    }
+}
+}
